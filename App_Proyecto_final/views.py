@@ -14,20 +14,21 @@ def agregar_golosinas(self,nombre,marca,tipo_de_producto,unidades):
 
 def inicio(self):
     
+    return render(self, 'inicio.html')
     return HttpResponse("vista de inicio")
 
 def golosinas(self):
     
-    return HttpResponse("vista de golosinas")
+    return render(self,"golosinas.html")
 
 def combo_cotillon(self):
     
-    return HttpResponse("vista de combo cotillon")
+    return render(self,"combocotillon.html")
 
 def copetin(self):
     
-    return HttpResponse("vista de copetin")
+    return render(self,"copetin.html")
 
 def disfraz(self):
     
-    return HttpResponse("vista de disfraz")
+    return render(self,"disfraz.html")
