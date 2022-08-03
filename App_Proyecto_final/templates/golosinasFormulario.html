@@ -1,0 +1,18 @@
+{% extends 'padre.html' %}
+{% load static %}
+
+
+{% block bloqueQueCambia %}
+<form action="{% url 'golosinas-formulario' %}" method="POST"> {% csrf_token %}
+
+    <h1>Pantalla para cargar golosinas</h1>
+
+    {{g_form.as_p}}
+
+    <input type="submit" value="Enviar">
+
+</form>
+
+
+{% endblock bloqueQueCambia %}
+    

@@ -1,0 +1,17 @@
+{% extends 'padre.html' %}
+{% load static %}
+
+
+{% block bloqueQueCambia %}
+<form action="{% url 'copetin-formulario' %}" method="POST"> {% csrf_token %}
+
+    <h1>Pantalla para cargar el copetin</h1>
+
+    {{cop_form.as_p}}
+
+    <input type="submit" value="Enviar">
+
+</form>
+
+
+{% endblock bloqueQueCambia %}
