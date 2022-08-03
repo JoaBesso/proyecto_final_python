@@ -114,4 +114,19 @@ def combo_cotillon_formulario(request):
     
     return render(request,"combocotillonFormulario.html", {"comb_form":comb_form})
 
+
+def Busqueda_Nombre(request):
+
+    return render(request,'busquedaNombre.html')
+
+def Buscar(request):
+
+    if request.GET["nombre"]:
+        nombre = request.GET["nombre"]
+        productos = Golosinas.objects.filter(nombre__icontains =nombre)
+        return render(request,"ResultadoBusqueda.html",{"productos":productos})
+    else:
+        respuesta = "no enviaste datos" 
+    return HttpResponse(respuesta)
+
 #[]
