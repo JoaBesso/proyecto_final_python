@@ -3,6 +3,9 @@ from django.shortcuts import render
 from App_Proyecto_final.forms import ComboCotillonFormulario, CopetinFormulario, DisfrazFormulario, GolosinasFormulario
 from django.urls import is_valid_path
 from App_Proyecto_final.models import ComboCotillon, Copetin, Disfraz, Golosinas
+from django.contrib.auth.forms import AuthenticationForm, UserCreationForm
+from django.contrib.auth import authenticate,login,logout
+
 
 # Create your views here.
 def agregar_golosinas(self,nombre,marca,tipo_de_producto,unidades):
@@ -128,5 +131,51 @@ def Buscar(request):
     else:
         respuesta = "no enviaste datos" 
     return HttpResponse(respuesta)
+
+
+def loginview(request):
+    if request.method == 'POST':
+
+        form = AuthenticationForm(request,data=request.POST)
+
+        if form.is_valid():
+
+            data = form.cleaned_data
+
+            usuario = data["username"]
+            clave = data["password"]
+
+            user = authenticate(username=usuario, password=clave)
+
+            if user:
+
+                login(request,user)
+                return render(request,"inicio.html", {"mensaje": f'Bienvenido {usuario}'})
+            else:
+                return render(request,"inicio.html",{"mensaje": "error, datos incorrectos"})
+        return render(request,"inicio.html",{"mensaje":"error, formulario invalido"})
+    else:
+        form = AuthenticationForm()
+    return render(request, "login.html",{"form": form})
+
+def registrar(request):
+
+    if request.method == 'POST':
+
+        form = UserCreationForm(request.POST)
+
+        if form.is_valid():
+
+            data = form.cleaned_data
+
+            username = data["username"]
+
+            form.save()
+
+            return render(request, "inicio.html",{"mensaje": f'usuario {username} creado'})
+    else:
+        form = UserCreationForm()
+
+    return render(request, "registro.html",{"form": form})
 
 #[]

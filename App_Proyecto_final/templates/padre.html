@@ -28,7 +28,19 @@
                 <a class="navbar-brand" href="{% url 'Disfraz' %}">DISFRACES</a>
                 <a class="navbar-brand" href="{% url 'ComboCotillon' %}">COMBO COTILLON</a>
                 <a class="navbar-brand" href="{% url 'Copetin' %}">COPETIN</a>
-                <a class="btn btn-primary" href="#signup">INICIAR</a>
+                
+
+
+                
+                {% if user.is_authenticated %}
+                    <p>bienvendio {{user.username}}</p>
+                    <a class="btn btn-primary" href="{% url 'logout' %}">LOGOUT</a>
+                {% else %}
+                    <a class="btn btn-primary" href="{% url 'login' %}">LOGIN</a>
+                    <a class="btn btn-primary" href="{% url 'registrar' %}">REGISTRARSE</a>
+                {% endif %}
+                    
+                    
             </div>
         </nav>
         <!-- Masthead-->
