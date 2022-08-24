@@ -1,0 +1,15 @@
+
+header,footer{
+    background-color: white;
+    border-style: solid;
+    border-radius: 20px;
+    padding: Spx;
+    text-align: center;
+}
+body{
+    background-image: url(./media/golo.jpg);
+}
+
+main{
+    height: 1200px;
+}

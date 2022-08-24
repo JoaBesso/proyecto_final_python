@@ -1,9 +1,10 @@
+from urllib import request
 from django.http import HttpResponse
 from django.shortcuts import render
-from App_Proyecto_final.forms import ComboCotillonFormulario, CopetinFormulario, DisfrazFormulario, GolosinasFormulario
+from App_Proyecto_final.forms import AvatarFormulario, ComboCotillonFormulario, CopetinFormulario, DisfrazFormulario, GolosinasFormulario, UserEditForm
 from django.urls import is_valid_path
-from App_Proyecto_final.models import ComboCotillon, Copetin, Disfraz, Golosinas
-from django.contrib.auth.forms import AuthenticationForm, UserCreationForm
+from App_Proyecto_final.models import Avatar, ComboCotillon, Copetin, Disfraz, Golosinas
+from django.contrib.auth.forms import AuthenticationForm, UserCreationForm,UserChangeForm
 from django.contrib.auth import authenticate,login,logout
 
 
@@ -16,14 +17,17 @@ def agregar_golosinas(self,nombre,marca,tipo_de_producto,unidades):
     """)
 
 
-def inicio(self):
-    
-    return render(self, 'inicio.html')
+def inicio(request):
+    try:
+        avatar = Avatar.objects.get(user=request.user.id)
+        return render(request, 'inicio.html',{"url": avatar.imagen.url})
+    except:
+        return render(request, 'inicio.html')
     
 
-def golosinas(self):
+def golosinas(request):
     
-    return render(self,"golosinas.html")
+    return render(request,"golosinas.html")
 
 def combo_cotillon(self):
     
@@ -178,4 +182,46 @@ def registrar(request):
 
     return render(request, "registro.html",{"form": form})
 
+
+def editar_perfil(request):
+    usuario= request.user
+    if request.method == 'POST':
+
+        form = UserEditForm(request.POST,instance=request.user)
+
+        if form.is_valid():
+
+            data = form.cleaned_data
+
+            usuario.first_name = data["first_name"]
+            usuario.last_name = data["last_name"]
+            usuario.email = data["email"]
+            
+
+            usuario.save()
+
+            return render(request, "inicio.html",{"mensaje": "Sus datos han sido actualizados correctamente!"})
+    else:
+        form = UserEditForm(instance=request.user)
+
+    return render(request, "EditarPerfil.html",{"form": form})
+
+def agregar_avatar(request):
+
+    if request.method == 'POST':
+
+        form = AvatarFormulario(request.POST, request.FILES)
+
+        if form.is_valid():
+
+            data = form.cleaned_data
+            avatar = Avatar(user=request.user, imagen=data['imagen'])
+            avatar.save()
+
+            return render(request,'inicio.html',{"mensaje": "Avatar cargado..."})
+    else:
+
+        form = AvatarFormulario() 
+    
+    return render(request,"agregarAvatar.html", {"form":form})
 #[]

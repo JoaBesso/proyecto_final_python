@@ -1,14 +1,56 @@
+
 {% extends 'padre.html' %}
 {% load static %}
 
 
 {% block bloqueQueCambia %}
-    <h1>Pantalla de golosinas</h1>
+<!DOCTYPE html>
+<html lang="es-ES">
+<head>
+    <meta charset="UTF-8">
+    <title>Document</title>
+    <link rel="stylesheet" href="{% static 'css/imagen_golosina.css' %}">
+</head>
+<body>
+    <header>
+        <h1>Pantalla de golosinas</h1>
+            <a class="btn btn-primary" href="{% url 'golosinas-formulario' %}">Agregar Golosinas</a>
+            <a class="btn btn-primary" href="{% url 'busqueda-nombre' %}">Buscar por Nombre</a>
+        <img src="img/golo.jpg"/>
+    </header>
+    <div class="main">
+
+    </div>
+    <footer>
+        <p>probando</p>
+    </footer>
+</body>
+</html>
+{% endblock bloqueQueCambia %}
+
+
+
+
+
     
-    <a class="btn btn-primary" href="{% url 'golosinas-formulario' %}">Agregar Golosinas</a>
-    <a class="btn btn-primary" href="{% url 'busqueda-nombre' %}">Buscar por Nombre</a>
+
+
+
+
+
+
+
     
 
     
-{% endblock bloqueQueCambia %}
     
+    
+
+    
+
+    
+
+
+
+
+  
