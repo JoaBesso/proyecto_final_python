@@ -1,5 +1,6 @@
 from dataclasses import fields
 import email
+from pyexpat import model
 from django import forms
 from django.contrib.auth.forms import UserChangeForm
 from django.contrib.auth.models import User
@@ -53,6 +54,7 @@ class UserEditForm(UserChangeForm):
         return password2
 
 class AvatarFormulario(forms.ModelForm):
+
     class Meta:
-        model =Avatar
+        model=Avatar
         fields=('imagen',)

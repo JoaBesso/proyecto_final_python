@@ -4,28 +4,25 @@
 
 
 {% block bloqueQueCambia %}
-<!DOCTYPE html>
-<html lang="es-ES">
-<head>
-    <meta charset="UTF-8">
-    <title>Document</title>
-    <link rel="stylesheet" href="{% static 'css/imagen_golosina.css' %}">
-</head>
-<body>
-    <header>
-        <h1>Pantalla de golosinas</h1>
-            <a class="btn btn-primary" href="{% url 'golosinas-formulario' %}">Agregar Golosinas</a>
-            <a class="btn btn-primary" href="{% url 'busqueda-nombre' %}">Buscar por Nombre</a>
-        <img src="img/golo.jpg"/>
-    </header>
-    <div class="main">
+    <h1>Pantalla de golosinas</h1>
+    <a class="btn btn-primary" href="{% url 'golosinas-formulario' %}">Agregar Golosinas</a>
+    <a class="btn btn-primary" href="{% url 'busqueda-nombre' %}">Buscar por Nombre</a>
+    <ul>
+        
+        {% for golosina in golosinas  %}
+            <li>{{golosina}}</li>
+            <div>
+                <form action="{% url 'eliminar-golosina' golosina.id %}" method="POST"> {% csrf_token %}
+                    <button type="submit">Eliminar</button>
 
-    </div>
-    <footer>
-        <p>probando</p>
-    </footer>
-</body>
-</html>
+                </form>
+                <button>
+                    <a href="{% url 'editargolosina' golosina.id%}">editar</a>
+                </button>
+            </div>
+        {% endfor %}
+            
+    </ul>
 {% endblock bloqueQueCambia %}
 
 

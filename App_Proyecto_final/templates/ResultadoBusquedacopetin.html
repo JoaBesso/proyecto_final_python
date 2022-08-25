@@ -1,0 +1,25 @@
+{% extends 'padre.html' %}
+{% load static %}
+
+
+{% block bloqueQueCambia %}
+<p>Estamos buscando el producto de nombre:{{nombre}}</p>
+
+{% if productos %}
+    <ul>
+        
+        {% for producto in productos  %}
+        <li>
+            {{producto.nombre}}-{{producto.marca}}-{{producto.tipo_de_producto}}-{{producto.peso}}
+        </li>
+            
+        {% endfor %}
+            
+    </ul>
+{% else %}
+<p>no hubo coincidensias</p>
+{% endif %}
+    
+
+
+{% endblock bloqueQueCambia %}

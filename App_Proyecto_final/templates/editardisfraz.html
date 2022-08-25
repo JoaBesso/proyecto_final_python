@@ -3,17 +3,11 @@
 
 
 {% block bloqueQueCambia %}
-<form  
-    enctype="multipart/form-data"
-    method="POST"> {% csrf_token %}
+<form action="{% url 'editardisfraz' id %}" method="POST"> {% csrf_token %}
 
 
 
-    {{form.as_p}}
-
-    
-
-
+    {{miFormulario.as_p}}
 
     <input type="submit" value="Enviar">
 

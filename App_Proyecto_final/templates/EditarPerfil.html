@@ -6,8 +6,9 @@
 {% block bloqueQueCambia %}
 
     <form method="POST"> {% csrf_token %}
-
+        <h1>Editar Perfil</h1>
         {{form.as_p}}
+        <a class="btn btn-primary" href="{% url 'agregar-avatar' %}">Editar Avatar</a>
 
         <input type="submit" value="Enviar">
 
