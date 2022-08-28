@@ -1,8 +1,6 @@
 from django.apps import AppConfig
 
 
-class AppProyectoFinalConfig(AppConfig):
+class AppPreguntasConfig(AppConfig):
     default_auto_field = 'django.db.models.BigAutoField'
-    name = 'App_Proyecto_final'
-
-
+    name = 'app_preguntas'

@@ -1,13 +1,23 @@
 from django.urls import path
 
-from App_Proyecto_final.views import  Buscar_combo, editarcombo, editarcopetin, editardisfraz, editargolosinas,eliminar_combo, Buscar_copetin, Buscar_disfraz, Buscar_golosinas, Busqueda_Nombre, Busqueda_Nombre_combo, Busqueda_Nombre_copetin, Busqueda_Nombre_disfraz, agregar_avatar, combo_cotillon, combo_cotillon_formulario, copetin, copetin_formulario, disfraz, disfraz_formulario, editar_perfil, eliminar_copetin, eliminar_disfraz, eliminar_golosina, golosinas, golosinas_formulario, inicio, loginview, registrar
+from App_Proyecto_final.views import  (Buscar_combo, combo_unica, copetin_unica, 
+disfraz_unica, editarcombo, editarcopetin, editardisfraz, editargolosinas,eliminar_combo,
+Buscar_copetin, Buscar_disfraz, Buscar_golosinas, Busqueda_Nombre, Busqueda_Nombre_combo,
+Busqueda_Nombre_copetin, Busqueda_Nombre_disfraz, agregar_avatar, combo_cotillon,
+combo_cotillon_formulario, copetin, copetin_formulario, disfraz, disfraz_formulario,
+editar_perfil, eliminar_copetin, eliminar_disfraz, eliminar_golosina, golosina_unica,
+golosinas, golosinas_formulario, inicio, loginview, registrar)
 from django.contrib.auth.views import LogoutView 
 urlpatterns = [
     path('', inicio,name='Inicio'),
     path('golosinas/', golosinas,name='Golosinas'),
+    path('golosinas-unica/<int:id>', golosina_unica,name='golosinas-unica'),
     path('copetin/', copetin, name='Copetin'),
+    path('copetin-unica/<int:id>', copetin_unica,name='copetin-unica'),
     path('disfraz/',disfraz, name='Disfraz'),
+    path('disfraz-unica/<int:id>', disfraz_unica,name='disfraz-unica'),
     path('combo-cotillon/', combo_cotillon, name='ComboCotillon'),
+    path('combo-unica/<int:id>', combo_unica,name='combo-unica'),
     path('golosina-formulario/', golosinas_formulario, name='golosinas-formulario'),
     path('eliminar-golosina/<int:id>', eliminar_golosina, name='eliminar-golosina'),
     path('editargolosina/<int:id>', editargolosinas, name="editargolosina" ),
@@ -33,6 +43,7 @@ urlpatterns = [
     path('logout/',LogoutView.as_view(template_name='logout.html') , name='logout'),
     path('editar-perfil/', editar_perfil, name='editar-perfil'),
     path('agregar-avatar/', agregar_avatar, name='agregar-avatar'),
+
     
     
     

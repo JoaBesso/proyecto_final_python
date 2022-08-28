@@ -13,6 +13,10 @@ class GolosinasFormulario(forms.Form):
     marca = forms.CharField( max_length=50)
     tipo_de_producto = forms.CharField( max_length=50)
     unidades = forms.IntegerField()
+    precio =  forms.CharField( max_length=50)
+    descripcion =  forms.CharField( max_length=50)
+    
+
 
 class CopetinFormulario(forms.Form):
 
@@ -20,16 +24,21 @@ class CopetinFormulario(forms.Form):
     marca = forms.CharField( max_length=50)
     tipo_de_producto = forms.CharField( max_length=50)
     peso = forms.IntegerField()
+    precio =  forms.CharField( max_length=50)
+    descripcion =  forms.CharField( max_length=50)
 
 class DisfrazFormulario(forms.Form):
     nombre = forms.CharField( max_length=50)
     talle = forms.IntegerField()
+    precio =  forms.CharField( max_length=50)
+    descripcion =  forms.CharField( max_length=50)
 
 class ComboCotillonFormulario(forms.Form):
 
     nombre = forms.CharField( max_length=50)
     cantidad_personas = forms.IntegerField()
-
+    precio =  forms.CharField( max_length=50)
+    descripcion =  forms.CharField( max_length=50)
 
 class UserEditForm(UserChangeForm):
     password = forms.CharField(
@@ -58,3 +67,7 @@ class AvatarFormulario(forms.ModelForm):
     class Meta:
         model=Avatar
         fields=('imagen',)
+
+
+
+    

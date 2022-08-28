@@ -1,0 +1,18 @@
+{% extends 'padre.html' %}
+{% load static %}
+
+
+{% block bloqueQueCambia %}
+    <h1>Producto seleccionado</h1>
+    <hr>
+    <h2>Disfraz de {{disfra.nombre}}</h2>
+    <h3>Talle:{{disfra.talle}}</h3>
+    <h1>{{disfra.precio}}</h1>
+    <img src="/media/{{disfra.imagen}}"  height="600" class="card-img-top" alt="golosinass"/>
+    <p>{{disfra.descripcion}}</p>
+        
+    
+
+
+
+{% endblock bloqueQueCambia %}

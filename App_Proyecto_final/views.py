@@ -1,3 +1,4 @@
+from tkinter import image_names
 from urllib import request
 from django.http import HttpResponse
 from django.shortcuts import render
@@ -6,11 +7,15 @@ from django.urls import is_valid_path
 from App_Proyecto_final.models import Avatar, ComboCotillon, Copetin, Disfraz, Golosinas
 from django.contrib.auth.forms import AuthenticationForm, UserCreationForm,UserChangeForm
 from django.contrib.auth import authenticate,login,logout
+from django.contrib.auth.mixins import LoginRequiredMixin
+from django.contrib.auth.decorators import login_required
+from django.contrib.admin.views.decorators import staff_member_required
 
+from app_preguntas.models import Preguntas
 
 # Create your views here.
 def inicio(request):
-
+    
     try:
         avatar = Avatar.objects.get(user=request.user.id)
         return render(request, 'inicio.html',{"url": avatar.imagen.url})
@@ -19,14 +24,14 @@ def inicio(request):
     
 
 def golosinas(request):
+
     golosinas= Golosinas.objects.all()
+
     try:
         avatar = Avatar.objects.get(user=request.user.id)
         return render(request, 'golosinas.html',{"golosinas": golosinas,"url": avatar.imagen.url})
     except:
-        return render(request, 'golosinas.html',{"golosinas": golosinas})
-    
-    
+        return render(request, 'golosinas.html',{"golosinas": golosinas,})
 
 def combo_cotillon(request):
     combos = ComboCotillon.objects.all()
@@ -60,18 +65,25 @@ def disfraz(request):
 
 
 
-
+        
+@staff_member_required(login_url='/app-proyecto-final/')
 def golosinas_formulario(request):
 
     if request.method == 'POST':
+        
 
-        g_form = GolosinasFormulario(request.POST)
+        g_form = GolosinasFormulario(request.POST, request.FILES)
 
         if g_form.is_valid():
 
             data = g_form.cleaned_data
-            golosina = Golosinas(nombre=data['nombre'], marca=data['marca'], tipo_de_producto=data['tipo_de_producto'], unidades=data['unidades'])
+            golosina = Golosinas(user=request.user,nombre=data['nombre'], marca=data['marca'], tipo_de_producto=data['tipo_de_producto'],
+            unidades=data['unidades'],precio=data['precio'],descripcion=data['descripcion'])
             golosina.save()
+            
+
+            
+            
         try:
             avatar = Avatar.objects.get(user=request.user.id)
             return render(request, 'golosinas.html', {"url":avatar.imagen.url})
@@ -88,6 +100,7 @@ def golosinas_formulario(request):
         except:
             return render(request,"golosinasFormulario.html", {"g_form":g_form})
 
+@staff_member_required(login_url='/app-proyecto-final/')
 def eliminar_golosina(request, id):
 
     if request.method == 'POST':
@@ -102,10 +115,13 @@ def eliminar_golosina(request, id):
             return render(request, "golosinas.html",{"golos":golos})
 
 
+def golosina_unica(request, id):
+    golosina = Golosinas.objects.get(id=id)
+
+    return render(request, "golosinas_unica.html",{"golosina":golosina,"id":golosina.id})
 
 
-
-
+@staff_member_required(login_url='/app-proyecto-final/')
 def editargolosinas(request,id):
     golosina = Golosinas.objects.get(id=id)
     if request.method == 'POST':
@@ -116,6 +132,8 @@ def editargolosinas(request,id):
             golosina.marca = data['marca']
             golosina.tipo_de_producto = data['tipo_de_producto']
             golosina.unidades = data['unidades']
+            golosina.precio = data['precio']
+            golosina.descripcion =data['descripcion']
             golosina.save()
         try:
             avatar = Avatar.objects.get(user=request.user.id)
@@ -130,6 +148,9 @@ def editargolosinas(request,id):
             "marca":golosina.marca,
             "tipo_de_producto":golosina.tipo_de_producto,
             "unidades":golosina.unidades,
+            "precio":golosina.precio,
+            "descripcion":golosina.descripcion
+
 
         })
         try:
@@ -138,6 +159,7 @@ def editargolosinas(request,id):
         except:
             return render(request,"editargolosinas.html", {"miFormulario":miFormulario, "id":golosina.id})
 
+@staff_member_required(login_url='/app-proyecto-final/')
 def copetin_formulario(request):
 
     if request.method == 'POST':
@@ -147,7 +169,8 @@ def copetin_formulario(request):
         if cop_form.is_valid():
 
             data = cop_form.cleaned_data
-            copet = Copetin(nombre=data['nombre'], marca=data['marca'], tipo_de_producto=data['tipo_de_producto'], peso=data['peso'])
+            copet = Copetin(user=request.user,nombre=data['nombre'], marca=data['marca'], tipo_de_producto=data['tipo_de_producto'],
+            peso=data['peso'],precio = data['precio'],descripcion=data['descripcion'])
             copet.save()
             try:
                 avatar = Avatar.objects.get(user=request.user.id)
@@ -166,6 +189,7 @@ def copetin_formulario(request):
         except:
             return render(request,"copetinFormulario.html", {"cop_form":cop_form})
 
+@staff_member_required(login_url='/app-proyecto-final/')
 def eliminar_copetin(request, id):
 
     if request.method == 'POST':
@@ -179,6 +203,7 @@ def eliminar_copetin(request, id):
         
             return render(request, "golosinas.html",{"copets":copets}) 
 
+@staff_member_required(login_url='/app-proyecto-final/')
 def editarcopetin(request,id):
     copetin = Copetin.objects.get(id=id)
     if request.method == 'POST':
@@ -189,6 +214,8 @@ def editarcopetin(request,id):
             copetin.marca = data['marca']
             copetin.tipo_de_producto = data['tipo_de_producto']
             copetin.peso = data['peso']
+            copetin.precio = data['precio']
+            copetin.descripcion=data['descripcion']
             copetin.save()
         try:
             avatar = Avatar.objects.get(user=request.user.id)
@@ -203,14 +230,22 @@ def editarcopetin(request,id):
             "marca":copetin.marca,
             "tipo_de_producto":copetin.tipo_de_producto,
             "peso":copetin.peso,
+            "precio" : copetin.precio,
+            "descripcion": copetin.descripcion
 
         })
         try:
             avatar = Avatar.objects.get(user=request.user.id)
             return render(request, 'editarcopetin.html',{"miFormulario": miFormulario, "url":avatar.imagen.url})
         except:
-            return render(request,"editarcopetin.html", {"miFormulario":miFormulario, "id":copetin.id})    
+            return render(request,"editarcopetin.html", {"miFormulario":miFormulario, "id":copetin.id}) 
 
+def copetin_unica(request, id):
+    copet = Copetin.objects.get(id=id)
+
+    return render(request, "copetin_unica.html",{"copet":copet,"id":copet.id})
+
+@staff_member_required(login_url='/app-proyecto-final/')
 def disfraz_formulario(request):
 
     if request.method == 'POST':
@@ -220,7 +255,7 @@ def disfraz_formulario(request):
         if dis_form.is_valid():
 
             data = dis_form.cleaned_data
-            disfra = Disfraz(nombre=data['nombre'], talle=data['talle'])
+            disfra = Disfraz(user=request.user,nombre=data['nombre'], talle=data['talle'],precio = data['precio'],descripcion=data['descripcion'])
             disfra.save()
         try:
             avatar = Avatar.objects.get(user=request.user.id)
@@ -238,6 +273,7 @@ def disfraz_formulario(request):
         except:
             return render(request,"disfrazFormulario.html", {"dis_form":dis_form})
 
+@staff_member_required(login_url='/app-proyecto-final/')
 def eliminar_disfraz(request, id):
 
     if request.method == 'POST':
@@ -251,6 +287,8 @@ def eliminar_disfraz(request, id):
         
             return render(request, "disfraz.html",{"disfra":disfra})
 
+
+@staff_member_required(login_url='/app-proyecto-final/')
 def editardisfraz(request,id):
     disfraz = Disfraz.objects.get(id=id)
     if request.method == 'POST':
@@ -259,6 +297,8 @@ def editardisfraz(request,id):
             data = miFormulario.cleaned_data
             disfraz.nombre = data['nombre']
             disfraz.talle = data['talle']
+            disfraz.precio = data['precio']
+            disfraz.descripcion = data['descripcion']
             disfraz.save()
         try:
             avatar = Avatar.objects.get(user=request.user.id)
@@ -271,6 +311,9 @@ def editardisfraz(request,id):
         miFormulario= DisfrazFormulario(initial={
             "nombre":disfraz.nombre,
             "talle":disfraz.talle,
+            "precio" : disfraz.precio,
+            "descripcion": disfraz.descripcion
+
             
 
         })
@@ -280,6 +323,12 @@ def editardisfraz(request,id):
         except:
             return render(request,"editardisfraz.html", {"miFormulario":miFormulario, "id":disfraz.id})
 
+def disfraz_unica(request, id):
+    disfra = Disfraz.objects.get(id=id)
+
+    return render(request, "disfraz_unica.html",{"disfra":disfra,"id":disfra.id})
+
+@staff_member_required(login_url='/app-proyecto-final/')
 def combo_cotillon_formulario(request):
 
     if request.method == 'POST':
@@ -289,7 +338,7 @@ def combo_cotillon_formulario(request):
         if comb_form.is_valid():
 
             data = comb_form.cleaned_data
-            combo = ComboCotillon(nombre=data['nombre'], cantidad_personas=data['cantidad_personas'])
+            combo = ComboCotillon(user=request.user,nombre=data['nombre'], cantidad_personas=data['cantidad_personas'],precio = data['precio'],descripcion=data['descripcion'])
             combo.save()
         try:
             avatar = Avatar.objects.get(user=request.user.id)
@@ -305,9 +354,10 @@ def combo_cotillon_formulario(request):
             avatar = Avatar.objects.get(user=request.user.id)
             return render(request, 'combocotillonFormulario.html',{"comb_form": comb_form, "url":avatar.imagen.url})
         except:
-            return render(request,"copetinFormulario.html", {"comb_form":comb_form})
+            return render(request,"combocotillonFormulario.html", {"comb_form":comb_form})
 
 
+@staff_member_required(login_url='/app-proyecto-final/')
 def eliminar_combo(request, id):
 
     if request.method == 'POST':
@@ -321,6 +371,7 @@ def eliminar_combo(request, id):
         
             return render(request, "combocotillon.html",{"combos":combos})
 
+@staff_member_required(login_url='/app-proyecto-final/')
 def editarcombo(request,id):
     combo = ComboCotillon.objects.get(id=id)
     if request.method == 'POST':
@@ -329,6 +380,8 @@ def editarcombo(request,id):
             data = miFormulario.cleaned_data
             combo.nombre = data['nombre']
             combo.cantidad_personas = data['cantidad_personas']
+            combo.precio = data['precio']
+            combo.descripcion=data['descripcion']
             combo.save()
         try:
             avatar = Avatar.objects.get(user=request.user.id)
@@ -341,6 +394,8 @@ def editarcombo(request,id):
         miFormulario= ComboCotillonFormulario(initial={
             "nombre":combo.nombre,
             "cantidad_personas":combo.cantidad_personas,
+            "precio" : combo.precio,
+            "descripcion" : combo.descripcion
             
 
         })
@@ -350,6 +405,10 @@ def editarcombo(request,id):
         except:
             return render(request,"editarcombo.html", {"miFormulario":miFormulario, "id":combo.id})
 
+def combo_unica(request, id):
+    combo = ComboCotillon.objects.get(id=id)
+
+    return render(request, "combo_unica.html",{"combo":combo,"id":combo.id})
 
 
 def Busqueda_Nombre(request):
@@ -567,6 +626,3 @@ def agregar_avatar(request):
             return render(request,"agregarAvatar.html", {"form":form})
 
 
-
-
-#[]

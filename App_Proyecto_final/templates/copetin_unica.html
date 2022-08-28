@@ -1,0 +1,18 @@
+{% extends 'padre.html' %}
+{% load static %}
+
+
+{% block bloqueQueCambia %}
+    <h1>Producto seleccionado</h1>
+    <hr>
+    <h2>{{copet.nombre}}-{{copet.marca}}</h2>
+    <h3>{{copet.tipo_de_producto}} de {{copet.peso}} gramos</h3>
+    <h1>{{copet.precio}}</h1>
+    <img src="/media/{{copet.imagen}}"  height="600" class="card-img-top" alt="golosinass"/>
+    <p>{{copet.descripcion}}</p>
+        
+    
+
+
+
+{% endblock bloqueQueCambia %}

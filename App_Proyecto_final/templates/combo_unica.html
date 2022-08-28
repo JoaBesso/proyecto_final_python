@@ -1,0 +1,18 @@
+{% extends 'padre.html' %}
+{% load static %}
+
+
+{% block bloqueQueCambia %}
+    <h1>Producto seleccionado</h1>
+    <hr>
+    <h2>{{combo.nombre}}</h2>
+    <h3>Cantidad de personas: {{combo.cantidad_personas}}</h3>
+    <h1>{{combo.precio}}</h1>
+    <img src="/media/{{combo.imagen}}"  height="600" class="card-img-top" alt="golosinass"/>
+    <p>{{combo.descripcion}}</p>
+        
+    
+
+
+
+{% endblock bloqueQueCambia %}

@@ -38,7 +38,8 @@ INSTALLED_APPS = [
     'django.contrib.sessions',
     'django.contrib.messages',
     'django.contrib.staticfiles',
-    'App_Proyecto_final'
+    'App_Proyecto_final',
+    'app_preguntas'
 ]
 
 MIDDLEWARE = [
@@ -128,3 +129,5 @@ DEFAULT_AUTO_FIELD = 'django.db.models.BigAutoField'
 #para imagenes
 MEDIA_URL ='/media/'
 MEDIA_ROOT = os.path.join(BASE_DIR, 'media')
+
+LOGIN_URL = '/app-proyecto-final/'

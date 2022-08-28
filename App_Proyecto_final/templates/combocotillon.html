@@ -7,19 +7,28 @@
     <a class="btn btn-primary" href="{% url 'combo-cotillon-formulario' %}">Agregar combos</a>
     <a class="btn btn-primary" href="{% url 'busqueda-nombrecombo' %}">Buscar por Nombre</a>
     <ul>
-        
+        <section class="golosinas">
         {% for combo in combos  %}
-            <li>{{combo}}</li>
-        
-        <div>
-            <form action="{% url 'eliminar-combo' combo.id %}" method="POST"> {% csrf_token %}
-                <button type="submit">Eliminar</button>
+            <div class="card" style="width: 18rem;">
+                <form>
+                    <img src="/media/{{combo.imagen}}" class="card-img-top" alt="golosinass">
+                    
+                </form>
 
-            </form>
-            <button>
-                <a href="{% url 'editarcombo' combo.id%}">editar</a>
-            </button>
-        </div>
-        {% endfor %}    
+                <div class="card-body">
+                <h5 class="card-title">{{combo.nombre}}</h5>
+                <p class="card-text">{{combo.cantidad_personas}}</p>
+                <a href="{% url  'combo-unica'  combo.id %} " class="btn btn-primary">Ver Producto</a>
+                <a href="{% url 'editarcombo' combo.id%}" class="btn btn-primary">Editar</a>
+                <div>
+                <form action="{% url 'eliminar-combo' combo.id %}" method="POST"> {% csrf_token %}
+                    <button type="submit">Eliminar</button>
+                </form>
+                </div>
+            </div>
+            </div>
+            
+        {% endfor %}
+        </section>   
     </ul>
 {% endblock bloqueQueCambia %}

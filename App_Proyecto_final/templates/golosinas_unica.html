@@ -1,0 +1,18 @@
+{% extends 'padre.html' %}
+{% load static %}
+
+
+{% block bloqueQueCambia %}
+    <h1>Producto seleccionado</h1>
+    <hr>
+    <h2>{{golosina.nombre}}-{{golosina.marca}}</h2>
+    <h3>{{golosina.tipo_de_producto}} de {{golosina.unidades}} unidades</h3>
+    <h1>{{golosina.precio}}</h1>
+    <img src="/media/{{golosina.imagen}}"  height="600" class="card-img-top" alt="golosinass"/>
+    <p>{{golosina.descripcion}}</p>
+        
+    
+
+
+
+{% endblock bloqueQueCambia %}

@@ -4,26 +4,60 @@
 
 
 {% block bloqueQueCambia %}
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta http-equiv="X-UA-Compatible" content="IE=edge">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <link href="{% static 'css/mis_estilos.css' %}" rel="stylesheet"/>
+    
+    <title>golosinas</title>
+</head>
+<body>
     <h1>Pantalla de golosinas</h1>
-    <a class="btn btn-primary" href="{% url 'golosinas-formulario' %}">Agregar Golosinas</a>
-    <a class="btn btn-primary" href="{% url 'busqueda-nombre' %}">Buscar por Nombre</a>
-    <ul>
+    {% if user.is_authenticated %}
+        <a class="btn btn-primary" href="{% url 'golosinas-formulario' %}">Agregar Golosinas</a>
+        <a class="btn btn-primary" href="{% url 'busqueda-nombre' %}">Buscar por Nombre</a>
         
-        {% for golosina in golosinas  %}
-            <li>{{golosina}}</li>
-            <div>
-                <form action="{% url 'eliminar-golosina' golosina.id %}" method="POST"> {% csrf_token %}
-                    <button type="submit">Eliminar</button>
 
+    {% else %}
+        <a class="btn btn-primary" href="{% url 'busqueda-nombre' %}">Buscar por Nombre</a>
+    {% endif %}
+
+    <ul>
+        <section class="golosinas">
+        {% for golosina in golosinas  %}
+            <div class="card" style="width: 18rem;">
+                <form>
+                    <img src="/media/{{golosina.imagen}}" height="200" class="card-img-top" alt="golosinass">
+                    
                 </form>
-                <button>
-                    <a href="{% url 'editargolosina' golosina.id%}">editar</a>
-                </button>
+
+                <div class="card-body">
+                <h5 class="card-title">{{golosina.nombre}}</h5>
+                <p class="card-text">{{golosina.tipo_de_producto}}</p>
+                {% if user.is_authenticated %}
+                    <a href="{% url  'golosinas-unica'  golosina.id %} " class="btn btn-primary">Ver Producto</a>
+                    <a href="{% url 'editargolosina' golosina.id%}" class="btn btn-primary">Editar</a>
+                    <div>
+                    <form action="{% url 'eliminar-golosina' golosina.id %}" method="POST"> {% csrf_token %}
+                        <button type="submit">Eliminar</button>
+                    </form>
+                    </div>
+                {% else %}
+                    <a href="{% url  'golosinas-unica'  golosina.id %} " class="btn btn-primary">Ver Producto</a>
+                {% endif %}
             </div>
-        {% endfor %}
+            </div>
             
+        {% endfor %}
+        </section>   
     </ul>
 {% endblock bloqueQueCambia %}
+</body>
+</html>
+    
 
 
 

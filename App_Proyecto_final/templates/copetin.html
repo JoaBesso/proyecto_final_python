@@ -3,23 +3,56 @@
 
 
 {% block bloqueQueCambia %}
+
+
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta http-equiv="X-UA-Compatible" content="IE=edge">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <link href="{% static 'css/mis_estilos.css' %}" rel="stylesheet"/>
+    
+    <title>Copetin</title>
+</head>
+<body>
     <h1>Pantalla de Copetin</h1>
-    <a class="btn btn-primary" href="{% url 'copetin-formulario' %}">Agregar copetin</a>
+    <a class="btn btn-primary" href="{% url 'copetin-formulario' %}">Agregar Copetin</a>
     <a class="btn btn-primary" href="{% url 'busqueda-nombrecopetin' %}">Buscar por Nombre</a>
     <ul>
-        
+        <section class="golosinas">
         {% for copet in copets  %}
-            <li>{{copet}}</li>
-            <div>
+            <div class="card" style="width: 18rem;">
+                <form>
+                    <img src="/media/{{copet.imagen}}" class="card-img-top" alt="golosinass">
+                    
+                </form>
+
+                <div class="card-body">
+                <h5 class="card-title">{{copet.nombre}}</h5>
+                <p class="card-text">{{copet.marca}}</p>
+                <a href="{% url  'copetin-unica'  copet.id %} " class="btn btn-primary">Ver Producto</a>
+                <a href="{% url 'editarcopetin' copet.id%}" class="btn btn-primary">Editar</a>
+                <div>
                 <form action="{% url 'eliminar-copetin' copet.id %}" method="POST"> {% csrf_token %}
                     <button type="submit">Eliminar</button>
-
                 </form>
-                <button>
-                    <a href="{% url 'editarcopetin' copet.id%}">editar</a>
-                </button>
+                </div>
             </div>
-        {% endfor %}
+            </div>
             
+        {% endfor %}
+        </section>   
     </ul>
 {% endblock bloqueQueCambia %}
+</body>
+</html>
+    
+
+
+
+
+
+
+
+
