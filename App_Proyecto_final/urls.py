@@ -1,6 +1,6 @@
 from django.urls import path
 
-from App_Proyecto_final.views import  (Buscar_combo, combo_unica, copetin_unica, 
+from App_Proyecto_final.views import  (Buscar_combo, acerca_de_mi, combo_unica, copetin_unica, 
 disfraz_unica, editarcombo, editarcopetin, editardisfraz, editargolosinas,eliminar_combo,
 Buscar_copetin, Buscar_disfraz, Buscar_golosinas, Busqueda_Nombre, Busqueda_Nombre_combo,
 Busqueda_Nombre_copetin, Busqueda_Nombre_disfraz, agregar_avatar, combo_cotillon,
@@ -43,6 +43,7 @@ urlpatterns = [
     path('logout/',LogoutView.as_view(template_name='logout.html') , name='logout'),
     path('editar-perfil/', editar_perfil, name='editar-perfil'),
     path('agregar-avatar/', agregar_avatar, name='agregar-avatar'),
+    path('acerca_de_mi/', acerca_de_mi, name='acerca_de_mi'),
 
     
     

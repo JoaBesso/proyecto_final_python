@@ -17,7 +17,7 @@
 </head>
 <body>
     <h1>Pantalla de Copetin</h1>
-    <a class="btn btn-primary" href="{% url 'copetin-formulario' %}">Agregar Copetin</a>
+    <a class="btn btn-primary" href="{% url 'copetin-formulario' %}">Agregar copetin</a>
     <a class="btn btn-primary" href="{% url 'busqueda-nombrecopetin' %}">Buscar por Nombre</a>
     <ul>
         <section class="golosinas">
@@ -31,13 +31,18 @@
                 <div class="card-body">
                 <h5 class="card-title">{{copet.nombre}}</h5>
                 <p class="card-text">{{copet.marca}}</p>
+                {% if user.is_authenticated %}
+                    <a href="{% url  'copetin-unica'  copet.id %} " class="btn btn-primary">Ver Producto</a>
+                    <a href="{% url 'editarcopetin' copet.id%}" class="btn btn-primary">Editar</a>
+                    <div>
+                    <form action="{% url 'eliminar-copetin' copet.id %}" method="POST"> {% csrf_token %}
+                        <button type="submit">Eliminar</button>
+                    </form>
+                    </div>
+                {% else %}
                 <a href="{% url  'copetin-unica'  copet.id %} " class="btn btn-primary">Ver Producto</a>
-                <a href="{% url 'editarcopetin' copet.id%}" class="btn btn-primary">Editar</a>
-                <div>
-                <form action="{% url 'eliminar-copetin' copet.id %}" method="POST"> {% csrf_token %}
-                    <button type="submit">Eliminar</button>
-                </form>
-                </div>
+                {% endif %}
+
             </div>
             </div>
             

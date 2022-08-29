@@ -15,17 +15,28 @@ from app_preguntas.models import Preguntas
 
 # Create your views here.
 def inicio(request):
-    
+    golosinas= Golosinas.objects.all()
+    copets= Copetin.objects.all()
+    disfraces= Disfraz.objects.all()
+    combos = ComboCotillon.objects.all()
     try:
         avatar = Avatar.objects.get(user=request.user.id)
         return render(request, 'inicio.html',{"url": avatar.imagen.url})
     except:
-        return render(request, 'inicio.html')
-    
+        return render(request, 'inicio.html',{"golosinas": golosinas,"copets": copets,"disfraces": disfraces,"combos":combos})
+
+
+
+
+def acerca_de_mi(request):
+    return render(request, 'acerca_de_mi.html' )
+
+
 
 def golosinas(request):
 
     golosinas= Golosinas.objects.all()
+    
 
     try:
         avatar = Avatar.objects.get(user=request.user.id)

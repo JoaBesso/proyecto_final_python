@@ -5,6 +5,140 @@
 
     <h1>Pantallla de inicio</h1>
     <h2>{{mensaje}}</h2>
+    <!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta http-equiv="X-UA-Compatible" content="IE=edge">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <link href="{% static 'css/mis_estilos.css' %}" rel="stylesheet"/>
     
+    <title>golosinas</title>
+</head>
+<body>
+
+
+    <ul>
+        <section class="golosinas">
+        {% for golosina in golosinas  %}
+            <div class="card" style="width: 18rem;">
+                <form>
+                    <img src="/media/{{golosina.imagen}}" height="200" class="card-img-top" alt="golosinass">
+                    
+                </form>
+
+                <div class="card-body">
+                <h5 class="card-title">{{golosina.nombre}}</h5>
+                <p class="card-text">{{golosina.tipo_de_producto}}</p>
+                {% if user.is_authenticated %}
+                    <a href="{% url  'golosinas-unica'  golosina.id %} " class="btn btn-primary">Ver Producto</a>
+                    <a href="{% url 'editargolosina' golosina.id%}" class="btn btn-primary">Editar</a>
+                    <div>
+                    <form action="{% url 'eliminar-golosina' golosina.id %}" method="POST"> {% csrf_token %}
+                        <button type="submit">Eliminar</button>
+                    </form>
+                    </div>
+                {% else %}
+                    <a href="{% url  'golosinas-unica'  golosina.id %} " class="btn btn-primary">Ver Producto</a>
+                {% endif %}
+            </div>
+            </div>
+            
+        {% endfor %}
+        </section>   
+    </ul>
+    <ul>
+        <section class="golosinas">
+        {% for copet in copets  %}
+            <div class="card" style="width: 18rem;">
+                <form>
+                    <img src="/media/{{copet.imagen}}" class="card-img-top" alt="golosinass">
+                    
+                </form>
+
+                <div class="card-body">
+                <h5 class="card-title">{{copet.nombre}}</h5>
+                <p class="card-text">{{copet.marca}}</p>
+                {% if user.is_authenticated %}
+                    <a href="{% url  'copetin-unica'  copet.id %} " class="btn btn-primary">Ver Producto</a>
+                    <a href="{% url 'editarcopetin' copet.id%}" class="btn btn-primary">Editar</a>
+                    <div>
+                    <form action="{% url 'eliminar-copetin' copet.id %}" method="POST"> {% csrf_token %}
+                        <button type="submit">Eliminar</button>
+                    </form>
+                    </div>
+                {% else %}
+                <a href="{% url  'copetin-unica'  copet.id %} " class="btn btn-primary">Ver Producto</a>
+                {% endif %}
+
+            </div>
+            </div>
+            
+        {% endfor %}
+        </section>   
+    </ul>
+    <ul>
+        
+        <section class="golosinas">
+        {% for disfraz in disfraces  %}
+            <div class="card" style="width: 18rem;">
+                <form>
+                    <img src="/media/{{disfraz.imagen}}" class="card-img-top" alt="golosinass">
+                    
+                </form>
+
+                <div class="card-body">
+                <h5 class="card-title">{{disfraz.nombre}}</h5>
+                <p class="card-text">{{disfraz.talle}}</p>
+                {% if user.is_authenticated %}
+                    <a href="{% url  'disfraz-unica'  disfraz.id %} " class="btn btn-primary">Ver Producto</a>
+                    <a href="{% url 'editardisfraz' disfraz.id%}" class="btn btn-primary">Editar</a>
+                    <div>
+                    <form action="{% url 'eliminar-disfraz' disfraz.id %}" method="POST"> {% csrf_token %}
+                    <button type="submit">Eliminar</button>
+                    </form>
+                    </div>
+                {% else %}
+                <a href="{% url  'disfraz-unica'  disfraz.id %} " class="btn btn-primary">Ver Producto</a>
+                {% endif %}
+            </div>
+            </div>
+        {% endfor %}
+        </section>
+            
+    </ul>
+    <ul>
+        <section class="golosinas">
+        {% for combo in combos  %}
+            <div class="card" style="width: 18rem;">
+                <form>
+                    <img src="/media/{{combo.imagen}}" class="card-img-top" alt="golosinass">
+                    
+                </form>
+
+                <div class="card-body">
+                <h5 class="card-title">{{combo.nombre}}</h5>
+                <p class="card-text">{{combo.cantidad_personas}}</p>
+                {% if user.is_authenticated %}
+                    <a href="{% url  'combo-unica'  combo.id %} " class="btn btn-primary">Ver Producto</a>
+                    <a href="{% url 'editarcombo' combo.id%}" class="btn btn-primary">Editar</a>
+                    <div>
+                    <form action="{% url 'eliminar-combo' combo.id %}" method="POST"> {% csrf_token %}
+                        <button type="submit">Eliminar</button>
+                    </form>
+                    </div>
+                {% else %}
+                    <a href="{% url  'combo-unica'  combo.id %} " class="btn btn-primary">Ver Producto</a>
+                {% endif %}
+
+            </div>
+            </div>
+            
+        {% endfor %}
+        </section>   
+    </ul>
 {% endblock bloqueQueCambia %}
+</body>
+</html>
+
     

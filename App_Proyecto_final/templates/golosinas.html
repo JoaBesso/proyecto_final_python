@@ -16,14 +16,12 @@
 </head>
 <body>
     <h1>Pantalla de golosinas</h1>
-    {% if user.is_authenticated %}
+
         <a class="btn btn-primary" href="{% url 'golosinas-formulario' %}">Agregar Golosinas</a>
         <a class="btn btn-primary" href="{% url 'busqueda-nombre' %}">Buscar por Nombre</a>
         
 
-    {% else %}
-        <a class="btn btn-primary" href="{% url 'busqueda-nombre' %}">Buscar por Nombre</a>
-    {% endif %}
+
 
     <ul>
         <section class="golosinas">

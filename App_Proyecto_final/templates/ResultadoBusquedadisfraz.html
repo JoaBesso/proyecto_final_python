@@ -9,9 +9,19 @@
     <ul>
         
         {% for producto in productos  %}
-        <li>
-            {{producto.nombre}}-{{producto.talle}}
-        </li>
+        <div class="card" style="width: 18rem;">
+            <form>
+                <img src="/media/{{producto.imagen}}" height="200" class="card-img-top" alt="golosinass">
+                
+            </form>
+
+            <div class="card-body">
+            <h5 class="card-title">{{producto.nombre}}</h5>
+            <p class="card-text">talle: {{producto.talle}}</p>
+            <p class="card-text">{{producto.precio}}</p>
+            </div>
+            
+        </div>
             
         {% endfor %}
             

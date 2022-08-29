@@ -1,8 +1,23 @@
+
+
 {% extends 'padre.html' %}
 {% load static %}
 
 
 {% block bloqueQueCambia %}
+
+
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta http-equiv="X-UA-Compatible" content="IE=edge">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <link href="{% static 'css/mis_estilos.css' %}" rel="stylesheet"/>
+    
+    <title>Copetin</title>
+</head>
+<body>
     <h1>Pantalla de Cotillon</h1>
     <a class="btn btn-primary" href="{% url 'combo-cotillon-formulario' %}">Agregar combos</a>
     <a class="btn btn-primary" href="{% url 'busqueda-nombrecombo' %}">Buscar por Nombre</a>
@@ -18,13 +33,18 @@
                 <div class="card-body">
                 <h5 class="card-title">{{combo.nombre}}</h5>
                 <p class="card-text">{{combo.cantidad_personas}}</p>
-                <a href="{% url  'combo-unica'  combo.id %} " class="btn btn-primary">Ver Producto</a>
-                <a href="{% url 'editarcombo' combo.id%}" class="btn btn-primary">Editar</a>
-                <div>
-                <form action="{% url 'eliminar-combo' combo.id %}" method="POST"> {% csrf_token %}
-                    <button type="submit">Eliminar</button>
-                </form>
-                </div>
+                {% if user.is_authenticated %}
+                    <a href="{% url  'combo-unica'  combo.id %} " class="btn btn-primary">Ver Producto</a>
+                    <a href="{% url 'editarcombo' combo.id%}" class="btn btn-primary">Editar</a>
+                    <div>
+                    <form action="{% url 'eliminar-combo' combo.id %}" method="POST"> {% csrf_token %}
+                        <button type="submit">Eliminar</button>
+                    </form>
+                    </div>
+                {% else %}
+                    <a href="{% url  'combo-unica'  combo.id %} " class="btn btn-primary">Ver Producto</a>
+                {% endif %}
+
             </div>
             </div>
             
@@ -32,3 +52,5 @@
         </section>   
     </ul>
 {% endblock bloqueQueCambia %}
+</body>
+</html>

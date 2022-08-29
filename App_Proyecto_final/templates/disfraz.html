@@ -1,14 +1,28 @@
+
 {% extends 'padre.html' %}
 {% load static %}
 
 
 {% block bloqueQueCambia %}
+
+
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta http-equiv="X-UA-Compatible" content="IE=edge">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <link href="{% static 'css/mis_estilos.css' %}" rel="stylesheet"/>
+    
+    <title>Copetin</title>
+</head>
+<body>
     <h1>Pantalla de Disfraz</h1>
     <a class="btn btn-primary" href="{% url 'disfraz-formulario' %}">Agregar disfraz</a>
     <a class="btn btn-primary" href="{% url 'busqueda-nombredisfraz' %}">Buscar por Nombre</a>
     <ul>
         
-        <section class="golosinas"></section>
+        <section class="golosinas">
         {% for disfraz in disfraces  %}
             <div class="card" style="width: 18rem;">
                 <form>
@@ -19,18 +33,23 @@
                 <div class="card-body">
                 <h5 class="card-title">{{disfraz.nombre}}</h5>
                 <p class="card-text">{{disfraz.talle}}</p>
-                <a href="{% url  'disfraz-unica'  disfraz.id %} " class="btn btn-primary">Ver Producto</a>
-                <a href="{% url 'editardisfraz' disfraz.id%}" class="btn btn-primary">Editar</a>
-                <div>
-                <form action="{% url 'eliminar-disfraz' disfraz.id %}" method="POST"> {% csrf_token %}
+                {% if user.is_authenticated %}
+                    <a href="{% url  'disfraz-unica'  disfraz.id %} " class="btn btn-primary">Ver Producto</a>
+                    <a href="{% url 'editardisfraz' disfraz.id%}" class="btn btn-primary">Editar</a>
+                    <div>
+                    <form action="{% url 'eliminar-disfraz' disfraz.id %}" method="POST"> {% csrf_token %}
                     <button type="submit">Eliminar</button>
-                </form>
-                </div>
+                    </form>
+                    </div>
+                {% else %}
+                <a href="{% url  'disfraz-unica'  disfraz.id %} " class="btn btn-primary">Ver Producto</a>
+                {% endif %}
             </div>
             </div>
-            
         {% endfor %}
         </section>
             
     </ul>
 {% endblock bloqueQueCambia %}
+</body>
+</html>
